@@ -3,6 +3,7 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,9 @@ import com.udacity.sandwichclub.utils.JsonUtils;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
@@ -20,7 +24,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView akaTv;
     TextView originTv;
     TextView ingredientsTv;
-    TextView descriptionTv;
+    @BindView(R.id.description_tv) TextView descriptionTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,9 @@ public class DetailActivity extends AppCompatActivity {
         //TextView akaTv = findViewById(R.id.also_known_tv);
         akaTv = findViewById(R.id.also_known_tv);
          ingredientsTv = findViewById(R.id.ingredients_tv);
-         descriptionTv = findViewById(R.id.description_tv);
+         //descriptionTv = findViewById(R.id.description_tv);
+        //bind the view using butterknife
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -61,6 +67,12 @@ public class DetailActivity extends AppCompatActivity {
         populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
+                //placeholder
+                //.placeholder(R.drawable.user_placeholder)
+                .placeholder(R.mipmap.ic_launcher)
+                //error
+                //.error(R.drawable.user_placeholder_error)
+                .error(R.mipmap.ic_launcher)
                 .into(ingredientsIv);
 
         setTitle(sandwich.getMainName());
@@ -88,7 +100,10 @@ public class DetailActivity extends AppCompatActivity {
         StringBuilder str = new StringBuilder();
         for (int i=0;i<list.size();i++){
             str.append(list.get(i)+"\n");
+            //break;
         }
+        //alternative
+        //str.append(TextUtils.join("\n",list));
         return str.toString();
     }
 
